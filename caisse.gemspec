@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{CIC / ATOS French credit card payment toolbox}
   s.description = %q{Caisse active is a gem to ease credit card payment using ATOS or Paiement CIC, 2 of the most common French payment gateways.}
 
-  s.files = %w(README.md LICENSE) + Dir["lib/**/*", "app/**/*"]
+  s.files = %w(README.markdown MIT-LICENSE) + Dir["lib/**/*", "app/**/*"]
   s.license = 'MIT'
 
   s.require_paths = ["lib"]
