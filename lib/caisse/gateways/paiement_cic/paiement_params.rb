@@ -1,4 +1,4 @@
-class PaiementSettings
+class PaiementParams < StandardError
 
   def initialize
     @settings = {}
@@ -40,26 +40,22 @@ private
   end
 
   def load_yaml_config
-    @settings ||= {}
-    begin
-      config = YAML::load_file(File.join(Rails.root, 'config', 'paiement_cic.yml'))
-    rescue
-      raise "PaiementCic error ! Invalid or missing /config/paiement_cic.yml config file"
-    end
 
-    env = Rails.env
+    defined?(Rails) ? env = Rails.env : env = 'test'
+    config = LoadConfig.for(:cic)
 
     settings = {
-      :tpe            => config[env]['tpe'],
-      :version        => config[env]['version'],
-      :societe        => config[env]['societe'],
-      :hmac_key       => config[env]['hmac_key'],
-      :target_url     => config[env]['target_url'],
-      :url_retour     => config[env]['url_retour'],
-      :url_retour_ok  => config[env]['url_retour_ok'],
-      :url_retour_err => config[env]['url_retour_err']
+      :tpe            => config['tpe'],
+      :version        => config['version'],
+      :societe        => config['societe'],
+      :hmac_key       => config['hmac_key'],
+      :target_url     => config['target_url'],
+      :url_retour     => config['url_retour'],
+      :url_retour_ok  => config['url_retour_ok'],
+      :url_retour_err => config['url_retour_err']
     }
 
+    @settings ||= {}
     settings.each do |key, value|
       if value
         @settings.update(key => value)

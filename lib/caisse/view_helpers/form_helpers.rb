@@ -28,4 +28,5 @@ module FormHelpers
 
   end
 
+  module_function :paiement_cic_form
 end

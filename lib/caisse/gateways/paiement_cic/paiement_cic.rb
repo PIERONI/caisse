@@ -1,11 +1,6 @@
-require 'digest/sha1'
-require 'openssl'
-require 'paiement_settings'
-require "view_helpers/form_helpers"
+require 'caisse/gateways/paiement_cic/paiement_params'
 
-ActionView::Base.send :include, FormHelpers
-
-class PaiementCic < PaiementSettings
+class PaiementCic < PaiementParams
 
   cattr_accessor :target_url, :version, :hmac_key, :tpe, :societe, :url_retour, :url_retour_ok, :url_retour_err, :societe
   attr_accessor :date, :montant, :reference, :texte_libre, :lgue, :mail
@@ -31,6 +26,8 @@ class PaiementCic < PaiementSettings
     @@url_retour     = settings[:url_retour]
     @@url_retour_ok  = settings[:url_retour_ok]
     @@url_retour_err = settings[:url_retour_err]
+
+    super()
 
   end
 
@@ -67,6 +64,10 @@ class PaiementCic < PaiementSettings
       params.update(:success => false)
     end
 
+  end
+
+  def form(options = {})
+    FormHelpers.paiement_cic_form(self, options)
   end
 
   def self.mac_string params
